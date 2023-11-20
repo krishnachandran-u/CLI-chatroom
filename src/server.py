@@ -2,14 +2,14 @@ import socket
 import threading
 
 HOST = "127.0.0.1"
-PORT = "3005"
+PORT = 3005
 
 def receive_message(client_socket, addr, active_connections):
     while True:
 
         try:
             message = client_socket.recv(1024).decode('utf-8')
-            if message == "log_out":
+            if message == "client_log_out":
                 print(f"[CLOSED] : {addr}")
                 break
             print(f"[{addr}]: {message}")
@@ -25,7 +25,6 @@ def send_message(client_socket, addr):
 
         try:
             message = input("Type message: ")
-            message = "[SERVER]: " + message
             client_socket.send(message.encode('utf-8'))  
 
         except Exception as send_message_exception:
@@ -33,7 +32,7 @@ def send_message(client_socket, addr):
 
 def start_server(host, port):
     server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    server_socket.bind(host, port)
+    server_socket.bind((host, port))
 
     server_socket.listen(5)
     print(f"[LISTENING] {host}:{port}")
