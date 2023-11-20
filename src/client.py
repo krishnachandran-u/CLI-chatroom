@@ -8,18 +8,23 @@ def receive_message(client_socket, host, port):
     while True:
         try:
             message = client_socket.recv(1024).decode('utf-8')
-            if message == "server_shut_down":
+            if message == "!reset":
                 print(f"[CLOSED]: Server {host}:{port} has shut down ")
+                break;
             else:
-                print(f"[SERVER]: {message}")
+                print(f"{message}")
         except Exception as receive_message_exception:
             print(f"An exception has occured on receiving message from {host}:{port}: {receive_message_exception}")
+
+    client_socket.close()
+
+    return
+
         
 def send_message(client_socket, host, port):
     while True:
-        message = input("Type message: ")
+        message = input("")
         client_socket.send(message.encode('utf-8'))
-
 
 if __name__ == "__main__":
 

@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "server": "python3 src/server.py",
-    "client": "python3 src/client.py"
+    "client": "python3 src/client.py",
+    "clear": "kill -9 $(lsof -t -i:3005)"
   },
   "author": "",
   "license": "ISC"
