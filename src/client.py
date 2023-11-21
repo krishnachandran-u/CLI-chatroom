@@ -4,8 +4,10 @@ import threading
 HOST = "127.0.0.1"
 PORT = 3005
 
+exit_event = threading.Event()
+
 def receive_message(client_socket, host, port):
-    while True:
+    while not exit_event.is_set():
         try:
             message = client_socket.recv(1024).decode('utf-8')
             if message == "!reset":
@@ -25,6 +27,9 @@ def send_message(client_socket, host, port):
     while True:
         message = input("")
         client_socket.send(message.encode('utf-8'))
+        if message == "!logout":
+            exit_event.set()
+            break
 
 if __name__ == "__main__":
 
