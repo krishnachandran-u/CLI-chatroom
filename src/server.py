@@ -32,6 +32,11 @@ def receive_and_broadcast_message(client_socket, client_address, active_client_s
 
     return
 
+def broadcast_message(active_client_sockets, active_client_addresses):
+    message = input("")
+    for active_client_socket in active_client_sockets:
+        active_client_socket.send(("[SERVER]: " + message).encode('utf-8'))
+
 def start_server(host, port):
 
     server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -55,8 +60,10 @@ def start_server(host, port):
             print(f"--- ACTIVE CLIENT SOCKETS: {len(active_client_sockets)} ---")
 
             receive_and_broadcast_thread = threading.Thread(target = receive_and_broadcast_message, args = (client_socket, client_address, active_client_sockets, active_client_addresses))
+            broadcast_message_thread = threading.Thread(target = broadcast_message, args = (active_client_sockets, active_client_addresses))
 
             receive_and_broadcast_thread.start()
+            broadcast_message_thread.start()
 
         except Exception as server_start_exception:
             print(f"An exception has occured on starting server: {server_start_exception}")
