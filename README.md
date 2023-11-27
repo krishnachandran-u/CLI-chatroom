@@ -31,11 +31,6 @@ Send this to server to close the client:
 ```bash
 !logout
 ```
- 
-Send this to server to close every client:
-
-```bash
-!reset
 ```
 
 
